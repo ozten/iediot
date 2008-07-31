@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Iediot - Continuous Browser Regression</title>
+<script>
+function runBelow(){
+  var url = document.getElementById('test-url').value;
+  if( url.indexOf("?") > 0){
+    url += "&nocache=" + Math.random();
+  }else{
+    url += "?nocache=" + Math.random();
+  }
+  window.frames[0].location.href = url;
+  var load = document.getElementById("last-load");
+  load.innerHTML = new Date();
+}
+</script>
+</head>
+<body leftmargin="0" rightmargin="0">
+<span style="float:left;">Test Page:</span>
+<input id="test-url" style="float: left;" type="text" name="test-url" value="http://www.example.com" size="80" />
+<button style="float: left; margin: auto 1n0px;" onclick="runBelow()">Run Below</button>
+every 
+<input id="number-seconds" size="1" value="30" /> seconds.
+
+<p>Last load at <span id="last-load"></span>
+  <a href="javascript:alert('TODO');" 
+     title="for putting a web page under Tom Cruise Control"
+     >Bookmarklet</a>
+</p>
+<iframe src="" width="100%" height="100%" align="center"></iframe>
+<script>
+function reload(){
+  var number_of_seconds = 
+         parseInt(document.getElementById('number-seconds').value);
+    if( ! isNaN( number_of_seconds ) && 
+        number_of_seconds > 0 ){
+      //User wants page reloaded
+      runBelow();
+    }else{
+      //Not now... maybe later
+      number_of_seconds = 3  
+    }
+    window.setTimeout( reload, number_of_seconds * 1000);
+}
+//bootstrap
+reload();
+</script>
+</body>
+</html>

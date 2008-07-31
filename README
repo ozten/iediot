@@ -1,0 +1,27 @@
+iediot - Continious Integration for the Web
+-------------------------------------------
+
+A very simple webpage which you can use in the background, on browsers
+that you can't be bothered to actually hit refresh on. Perhaps you
+have to support a platform for the layperson or casual web user.
+
+Example: Say you are developing some JavaScript and CSS with Firefox
+on your Mac. Also nearby is Windows XP running with IE 6 or 7... 
+you've finished your super sweet new feature and hit refresh and BOOM!
+
+Anothe workflow is to load your test page into iediot on IE 6. Ideally
+this page does nothing but exercise your API and execute unit / regression
+tests with no output except for errors. Now as you are hacking, 
+iediot is hitting your test page every 30 seconds. Now you are no more
+than 30 seconds away from retracing your steps and seeing which CSS
+visually broke IE, or which JavaScript call started breaking your unit
+tests. Think CruiseControl for IE, Opera, etc.
+
+TODO: number-seconds input should have onchange that updates setTimeout
+      button to make top level window test url
+      buton to stop  running every n seconds
+      pull value from query string 
+      persist all previous values and
+      provide type ahead 
+
+      document that all script / css tags must use a no cache query string param
