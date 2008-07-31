@@ -17,6 +17,10 @@ than 30 seconds away from retracing your steps and seeing which CSS
 visually broke IE, or which JavaScript call started breaking your unit
 tests. Think CruiseControl for IE, Opera, etc.
 
+Contribute: 
+http://github.com/ozten/iediot/tree/master
+git://github.com/ozten/iediot.git
+
 TODO: number-seconds input should have onchange that updates setTimeout
       button to make top level window test url
       buton to stop  running every n seconds
