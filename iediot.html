@@ -4250,16 +4250,38 @@ var controller = {
   }
 };
 var Layout = Class.create({
+  staticPanelWidth: -1,
+  getStaticPanelWidth: function(){
+    if( this.staticPanelWidth == -1 ){
+      this.staticPanelWidth = $('test-url-label').getWidth() +
+      $('number-seconds').getWidth() +
+      $('pause-play-button').getWidth();
+    }
+    return this.staticPanelWidth;
+  },
   handleResize: function(){
     var width = document.viewport.getWidth();
-    var urlInputRightEdge = $('test-url').cumulativeOffset()[0] +
-        $('test-url').getWidth();
+    var urlInputRightEdge = this.getStaticPanelWidth() + $('test-url').getWidth();
+    //TODO shrink input by (width - urlInputRightEdge)
+    this.shrink("input", $('test-url'), "toFit", (width - this.getStaticPanelWidth()) - 150);
     if(window.console) console.info("Window width: " + width +
-        "input right edge " + urlInputRightEdge);
+        "input right edge " + urlInputRightEdge + " static width:" +
+        this.getStaticPanelWidth());
+  },
+  shrink: function(an, input, toFit, size){
+    if(window.console) console.info("shrink " + input.getWidth() + " toFit " + size);
+    while(input.getWidth() < size){
+      input.size = input.size + 5;
+      if(window.console) console.info("grewed " + input.getWidth())
+    }
+    while(input.getWidth() > size && input.size > 10){
+      input.size--;
+      if(window.console) console.info("shrunk " + input.getWidth())
+    }
   }
 });
 var layout = new Layout();
-Event.observe(window, 'resize', layout.handleResize);
+Event.observe(window, 'resize', layout.handleResize.bindAsEventListener(layout));
 Event.observe(window, 'load', function(){
   layout.handleResize();
   $('test-url').focus();
@@ -4269,16 +4291,17 @@ Event.observe(window, 'load', function(){
 </head>
 <body>
 <div id="iediot-panel">
-  <span>Test URL:</span>
+  <span id="test-url-label">Test URL:</span>
   <input id="test-url" type="text" name="test-url"
           value="http://www.example.com" size="80"
           onchange="controller.numberOfSecondsChanged()" />
   every 
   <input id="number-seconds" size="1" value="5"
           onchange="controller.numberOfSecondsChanged()" /> seconds.
-  <button onclick="pausePlay(this)">Pause</button>
+  <button id="pause-play-button"
+           onclick="pausePlay(this)">Pause</button>
   <p style="clear: left;">Last load at <span id="last-load"></span>
-    <a href="javascript:alert('TODO');" 
+    <a href="javascript:alert('TODO');"
        title="for putting a web page under Tom Cruise Control"
        >Bookmarklet</a>
   </p>
