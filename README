@@ -22,9 +22,8 @@ http://github.com/ozten/iediot/tree/master
 git://github.com/ozten/iediot.git
 
 TODO:       
-      button to make top level window test url
-      buton to stop  running every n seconds
-      pull value from query string 
+     Write Bookmarket that escape url and puts it into iediot
+      Make icon for "Test Full Screen"
       persist all previous values and
       provide type ahead 
 
