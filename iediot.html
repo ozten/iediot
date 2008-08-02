@@ -4307,8 +4307,17 @@ Event.observe(window, 'load', function(){
   $('test-url').select();
   Event.observe($('load-above'), 'click', function(){
     window.location.href =   $('test-url').value;
-});
-//          onchange="controller.numberOfSecondsChanged()" />
+  });
+  Event.observe($('pause-play-button'), 'click', function(el){
+    pausePlay(el);
+  });
+  Event.observe($('number-seconds'), 'change', function(el){
+    controller.numberOfSecondsChanged();
+  });
+  Event.observe($('test-url'), 'change', function(el){
+    controller.numberOfSecondsChanged();
+  });
+  reload();
 });
 </script>
 </head>
@@ -4323,10 +4332,8 @@ Event.observe(window, 'load', function(){
   document.write( unescape( window.location.hash.substring(1)) );
   document.write("\" size=\"80\"></input>");
 </script>
-  <input id="number-seconds" size="1" value="0"
-          onchange="controller.numberOfSecondsChanged()" /> seconds.
-  <button id="pause-play-button"
-           onclick="pausePlay(this)">Pause</button>
+  <input id="number-seconds" size="1" value="0"/> seconds.
+  <button id="pause-play-button">Pause</button>
   <p style="clear: left;">Last load at <span id="last-load"></span>
     <a href="javascript:alert('TODO');"
        title="for putting a web page under Tom Cruise Control"
@@ -4339,7 +4346,6 @@ Event.observe(window, 'load', function(){
 </div>
 <iframe src="" width="100%" height="100%" align="center"></iframe>
 <script>
-
 var currentTimout;
 function reload(){
   if( currentTimout ){
@@ -4359,6 +4365,7 @@ function reload(){
 }
 var paused = false;
 function pausePlay(button){
+  console.info(button);
   if(paused){
     $('test-url').style.backgroundColor = "white";
     $('number-seconds').style.backgroundColor = "white";
@@ -4372,8 +4379,6 @@ function pausePlay(button){
   }
   reload();
 }
-//bootstrap
-reload();
 </script>
 </body>
 </html>
