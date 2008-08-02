@@ -4264,10 +4264,10 @@ var Layout = Class.create({
     $('iediot-panel-background').style.width = width; //$('iediot-panel').getWidth() + "px";
     $('iediot-panel-background').style.height = $('iediot-panel').cumulativeOffset()[1] + $('iediot-panel').getHeight() + "px";
     var urlInputRightEdge = this.getStaticPanelWidth() + $('test-url').getWidth();
-    this.shrink("input", $('test-url'), "toFit", (width - this.getStaticPanelWidth()) - 150);
+    this.shrink($('test-url'), (width - this.getStaticPanelWidth()) - 150);
 
   },
-  shrink: function(an, input, toFit, size){
+  shrink: function(input, size){
     var lastWidth = 0;
     while(input.getWidth() < size &&
           lastWidth != input.getWidth()){
@@ -4305,6 +4305,19 @@ Event.observe(window, 'load', function(){
   layout.handleResize();
   $('test-url').focus();
   $('test-url').select();
+  Event.observe($('load-above'), 'click', function(){
+    window.location.href =   $('test-url').value;
+  });
+  Event.observe($('pause-play-button'), 'click', function(el){
+    pausePlay(el);
+  });
+  Event.observe($('number-seconds'), 'change', function(el){
+    controller.numberOfSecondsChanged();
+  });
+  Event.observe($('test-url'), 'change', function(el){
+    controller.numberOfSecondsChanged();
+  });
+  reload();
 });
 </script>
 </head>
@@ -4314,18 +4327,21 @@ Event.observe(window, 'load', function(){
          width="100" height="100"></canvas>
 <div id="iediot-panel" style="position: relative;">
   <span id="test-url-label">Test URL:</span>
-  <input id="test-url" type="text" name="test-url"
-          value="http://www.example.com" size="80"
-          onchange="controller.numberOfSecondsChanged()" />
-  every 
-  <input id="number-seconds" size="1" value="0"
-          onchange="controller.numberOfSecondsChanged()" /> seconds.
-  <button id="pause-play-button"
-           onclick="pausePlay(this)">Pause</button>
+  <script>
+  document.write("<input id=\"test-url\" type=\"text\" name=\"test-url\" value=\"");
+  document.write( unescape( window.location.hash.substring(1)) );
+  document.write("\" size=\"80\"></input>");
+</script>
+  <input id="number-seconds" size="1" value="0"/> seconds.
+  <button id="pause-play-button">Pause</button>
   <p style="clear: left;">Last load at <span id="last-load"></span>
     <a href="javascript:alert('TODO');"
        title="for putting a web page under Tom Cruise Control"
        >Bookmarklet</a>
+    <button id="load-above"
+             title="Take test url and load directly in the entire window"
+             >Escape IEdiot</button>
+
   </p>
 </div>
 <iframe src="" width="100%" height="100%" align="center"></iframe>
@@ -4336,7 +4352,7 @@ function reload(){
     clearTimeout( currentTimout );
   }
   
-  if( ! $('number-seconds').disabled ){
+  if( ! paused ){
     var number_of_seconds = 
            parseInt(document.getElementById('number-seconds').value);
     if( ! isNaN( number_of_seconds ) && 
@@ -4349,21 +4365,20 @@ function reload(){
 }
 var paused = false;
 function pausePlay(button){
+  console.info(button);
   if(paused){
-    $('test-url').enable();
-    $('number-seconds').enable();
+    $('test-url').style.backgroundColor = "white";
+    $('number-seconds').style.backgroundColor = "white";
     button.innerHTML = "Pause";
     paused = false;
   }else{
-    $('test-url').disable();
-    $('number-seconds').disable();
+    $('test-url').style.backgroundColor = "#DDD";
+    $('number-seconds').style.backgroundColor = "#DDD";
     button.innerHTML = "Resume";
     paused = true;
   }
   reload();
 }
-//bootstrap
-reload();
 </script>
 </body>
 </html>

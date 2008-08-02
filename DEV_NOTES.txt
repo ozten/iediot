@@ -1,0 +1,10 @@
+This is a fairly simple component, but I am using it to learn git. Really I am not this anal.
+
+Tags:
+  iediot-0.2 - Second push out to web. Written in alpha branch. Includes dynamic resizing and canvas gradient background.
+
+Bugs:
+  Canvas tag not used in IE, wire in excanvas
+  test-url input doesn't resize in IE
+  
+  
