@@ -22,8 +22,9 @@ http://github.com/ozten/iediot/tree/master
 git://github.com/ozten/iediot.git
 
 TODO:       
-     Write Bookmarket that escape url and puts it into iediot
       Make icon for "Test Full Screen"
+
+      have Bookmarketlet grab currently hosted url
       persist all previous values and
       provide type ahead 
 
