@@ -4306,9 +4306,6 @@ function initBackground(id){
     ctx.lineCap = 'square';
     ctx.lineJoin = 'miter';
     ctx.strokeRect(1, 1, $(id).getWidth() -2, $(id).getHeight() -2);
-    ctx.fillStyle = "Red";
-    ctx.translate(10, 70);
-    ctx.mozDrawText("Sample String");
   }
 }
 
@@ -4342,9 +4339,12 @@ Event.observe(window, 'load', function(){
 <div id="iediot-panel" style="position: relative;">
   <span id="test-url-label">Test URL:</span>
   <script>
-  document.write("<input id=\"test-url\" type=\"text\" name=\"test-url\" value=\"");
-  document.write( unescape( window.location.hash.substring(1)) );
-  document.write("\" size=\"80\"></input>");
+  var testUrlInput = new Template(
+    '<input id="test-url" type="text" name="test-url" value="#{url}" size="80"></input>'
+  );
+  var data = { url: unescape( window.location.hash.substring(1) ) };
+  document.write( testUrlInput.evaluate(data));
+
 </script>
   <input id="number-seconds" size="1" value="30"/> seconds.
   <button id="pause-play-button">Pause</button>
