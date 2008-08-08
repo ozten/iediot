@@ -4227,22 +4227,23 @@ Element.addMethods();
 </script>
 <style type="text/css">
 body{ margin: 0px; }
-div#iediot-panel{ padding: 0em 0.3em; border: solid 1px #333; }
+div#iediot-panel{ padding: 0.3em 0.3em 0em 0.3em; }
 iframe{ border: none; }
 </style>
 <script>
 function runBelow(){
   var url = document.getElementById('test-url').value;
-  if( url.indexOf("?") > 0){
-    url += "&nocache=" + Math.random();
-  }else{
-    url += "?nocache=" + Math.random();
+  if(url != null && url.length > 0){
+    if( url.indexOf("?") > 0){
+      url += "&nocache=" + Math.random();
+    }else{
+      url += "?nocache=" + Math.random();
+    }
+
+    window.frames[0].location.href = url;
+    var load = document.getElementById("last-load");
+    load.innerHTML = new Date();
   }
-
-  window.frames[0].location.href = url;
-  var load = document.getElementById("last-load");
-  load.innerHTML = new Date();
-
 }
 var controller = {
   numberOfSecondsChanged: function(){
@@ -4263,6 +4264,10 @@ var Layout = Class.create({
     var width = document.viewport.getWidth();
     $('iediot-panel-background').style.width = width; //$('iediot-panel').getWidth() + "px";
     $('iediot-panel-background').style.height = $('iediot-panel').cumulativeOffset()[1] + $('iediot-panel').getHeight() + "px";
+    $('iediot-panel-background').setAttribute('width', width);
+    $('iediot-panel-background').height = $('iediot-panel').cumulativeOffset()[1] + $('iediot-panel').getHeight();
+    initBackground('iediot-panel-background');
+
     var urlInputRightEdge = this.getStaticPanelWidth() + $('test-url').getWidth();
     this.shrink($('test-url'), (width - this.getStaticPanelWidth()) - 150);
 
@@ -4296,6 +4301,14 @@ function initBackground(id){
     gradient.addColorStop(1, "rgb(150, 150, 150)");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, $(id).getWidth(), $(id).getHeight());
+    ctx.strokeStyle = "rgb(0, 0, 0)";
+    ctx.lineWidth = 1;
+    ctx.lineCap = 'square';
+    ctx.lineJoin = 'miter';
+    ctx.strokeRect(1, 1, $(id).getWidth() -2, $(id).getHeight() -2);
+    ctx.fillStyle = "Red";
+    ctx.translate(10, 70);
+    ctx.mozDrawText("Sample String");
   }
 }
 
@@ -4322,6 +4335,7 @@ Event.observe(window, 'load', function(){
 </script>
 </head>
 <body>
+
 <canvas id="iediot-panel-background"
          style="position:absolute; top:0px; left: 0px;"
          width="100" height="100"></canvas>
@@ -4332,11 +4346,11 @@ Event.observe(window, 'load', function(){
   document.write( unescape( window.location.hash.substring(1)) );
   document.write("\" size=\"80\"></input>");
 </script>
-  <input id="number-seconds" size="1" value="0"/> seconds.
+  <input id="number-seconds" size="1" value="30"/> seconds.
   <button id="pause-play-button">Pause</button>
   <p style="clear: left;">Last load at <span id="last-load"></span>
-    <a href="javascript:alert('TODO');"
-       title="for putting a web page under Tom Cruise Control"
+    <a href="javascript:(function(){var frag=escape(window.location.href);window.location.href='http://www.ozten.com/code/iediot/iediot-alpha.html#'+frag;})();"
+       title="Bookmark to this page, that also loads the page your on into the Test Page field."
        >Bookmarklet</a>
     <button id="load-above"
              title="Take test url and load directly in the entire window"
