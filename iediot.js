@@ -117,9 +117,10 @@ function reload(){
     }
   }
 }
+
 var paused = false;
 function pausePlay(button){
-  console.info(button);
+  if(window.console) console.info(button);
   if(paused){
     $('test-url').style.backgroundColor = "white";
     $('number-seconds').style.backgroundColor = "white";
@@ -133,4 +134,3 @@ function pausePlay(button){
   }
   reload();
 }
-
